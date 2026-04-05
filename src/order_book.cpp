@@ -8,6 +8,9 @@ std::vector<Trade> OrderBook::add_order(Order order) {
     if (order.quantity <= 0) {
         throw std::invalid_argument("order quantity must be positive");
     }
+    if (order.price <= 0) {
+        throw std::invalid_argument("order price must be positive");
+    }
     if (order_sides_.contains(order.id)) {
         throw std::invalid_argument("order id already exists");
     }

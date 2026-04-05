@@ -73,6 +73,19 @@ int main() {
                 throw std::runtime_error("book should be empty after cancel");
             }
         }
+
+        {
+            OrderBook book;
+            bool threw = false;
+            try {
+                static_cast<void>(book.add_order({1, Side::Buy, 0, 10}));
+            } catch (const std::invalid_argument&) {
+                threw = true;
+            }
+            if (!threw) {
+                throw std::runtime_error("expected invalid price rejection");
+            }
+        }
     } catch (const std::exception& error) {
         std::cerr << error.what() << '\n';
         return EXIT_FAILURE;
