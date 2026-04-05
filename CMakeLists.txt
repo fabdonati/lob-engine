@@ -17,6 +17,8 @@ target_link_libraries(order_book_tests PRIVATE lob_engine)
 add_executable(order_book_benchmark benchmarks/benchmark.cpp)
 target_link_libraries(order_book_benchmark PRIVATE lob_engine)
 
+add_executable(order_book_replay src/replay.cpp)
+target_link_libraries(order_book_replay PRIVATE lob_engine)
+
 enable_testing()
 add_test(NAME order_book_tests COMMAND order_book_tests)
-
