@@ -22,3 +22,11 @@ target_link_libraries(order_book_replay PRIVATE lob_engine)
 
 enable_testing()
 add_test(NAME order_book_tests COMMAND order_book_tests)
+add_test(
+    NAME replay_basic_lifecycle
+    COMMAND ${CMAKE_COMMAND}
+        -DREPLAY_EXECUTABLE=$<TARGET_FILE:order_book_replay>
+        -DCOMMANDS_FILE=${CMAKE_CURRENT_SOURCE_DIR}/examples/basic_lifecycle.txt
+        -DEXPECTED_FILE=${CMAKE_CURRENT_SOURCE_DIR}/tests/replay_basic_lifecycle.expected.txt
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/run_replay_fixture.cmake
+)

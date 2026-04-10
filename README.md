@@ -46,6 +46,12 @@ Run it with:
 same side and id. In this stage, every modify resets time priority and can trade immediately if
 the replacement price crosses resting liquidity.
 
+A committed example scenario lives at `examples/basic_lifecycle.txt`:
+
+```bash
+./build/order_book_replay examples/basic_lifecycle.txt
+```
+
 ## Benchmark
 
 ```bash

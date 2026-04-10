@@ -1,0 +1,14 @@
+# Resting buy order
+ADD 1 BUY 100 5
+
+# Higher-priority order at same price
+ADD 2 BUY 100 7
+
+# Cancel-and-replace modify resets queue position
+MODIFY 1 100 4
+
+# Crossing sell should hit order 2 first
+ADD 3 SELL 100 6
+
+# Rest the remainder, then cancel it
+CANCEL 1

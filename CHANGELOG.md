@@ -13,3 +13,4 @@
 - Added modify-order support with cancel-and-replace semantics
 - Extended the replay driver with `MODIFY id price quantity`
 - Added tests for modify misses, cross-book modifies, and priority reset after replace
+- Added a committed replay fixture and a CTest scenario that validates replay output

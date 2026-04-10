@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
     lob_engine::OrderBook book;
     std::string line;
     while (std::getline(input, line)) {
-        if (line.empty()) {
+        if (line.empty() || line.front() == '#') {
             continue;
         }
 
