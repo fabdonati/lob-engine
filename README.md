@@ -59,4 +59,14 @@ A committed example scenario lives at `examples/basic_lifecycle.txt`:
 ```
 
 The benchmark is intentionally simple and is meant as a quick regression signal, not a formal
-latency study.
+latency study. It now reports:
+
+- `processed_orders`
+- `add_count`
+- `cancel_count`
+- `cancel_hit_count`
+- `trade_count`
+- `traded_quantity`
+- `remaining_orders`
+- `elapsed_us`
+- `operations_per_second`

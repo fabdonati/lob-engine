@@ -30,3 +30,9 @@ add_test(
         -DEXPECTED_FILE=${CMAKE_CURRENT_SOURCE_DIR}/tests/replay_basic_lifecycle.expected.txt
         -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/run_replay_fixture.cmake
 )
+add_test(
+    NAME benchmark_smoke
+    COMMAND ${CMAKE_COMMAND}
+        -DBENCHMARK_EXECUTABLE=$<TARGET_FILE:order_book_benchmark>
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/run_benchmark_smoke.cmake
+)

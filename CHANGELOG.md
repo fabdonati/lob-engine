@@ -14,3 +14,5 @@
 - Extended the replay driver with `MODIFY id price quantity`
 - Added tests for modify misses, cross-book modifies, and priority reset after replace
 - Added a committed replay fixture and a CTest scenario that validates replay output
+- Expanded benchmark output with workload counters, trade totals, and throughput
+- Added a benchmark smoke test to verify output shape in CTest
