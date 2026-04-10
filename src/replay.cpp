@@ -73,6 +73,17 @@ int main(int argc, char** argv) {
                 std::cout << "TRADE buy=" << trade.buy_order_id << " sell=" << trade.sell_order_id
                           << " price=" << trade.price << " qty=" << trade.quantity << '\n';
             }
+        } else if (command == "MODIFY") {
+            int id = 0;
+            int price = 0;
+            int quantity = 0;
+            stream >> id >> price >> quantity;
+            const auto result = book.modify_order(id, price, quantity);
+            std::cout << "MODIFY " << id << ' ' << (result.found ? "OK" : "MISS") << '\n';
+            for (const auto& trade : result.trades) {
+                std::cout << "TRADE buy=" << trade.buy_order_id << " sell=" << trade.sell_order_id
+                          << " price=" << trade.price << " qty=" << trade.quantity << '\n';
+            }
         } else if (command == "CANCEL") {
             int id = 0;
             stream >> id;

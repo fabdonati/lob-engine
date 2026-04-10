@@ -12,6 +12,7 @@ structures, deterministic behavior, testable matching logic, and lightweight ben
 - Limit order book with buy and sell queues
 - Price-time-priority matching against resting liquidity
 - Order cancellation by id
+- Order modification by id with cancel-and-replace semantics
 - Best bid / best ask snapshots
 - Replay executable for deterministic command files
 - Benchmark executable for quick throughput smoke checks
@@ -31,6 +32,7 @@ The replay driver accepts a text file with one command per line:
 ```text
 ADD 1 BUY 100 10
 ADD 2 SELL 101 4
+MODIFY 1 102 8
 CANCEL 1
 ```
 
@@ -39,6 +41,10 @@ Run it with:
 ```bash
 ./build/order_book_replay commands.txt
 ```
+
+`MODIFY id price quantity` removes the existing order and re-inserts the replacement with the
+same side and id. In this stage, every modify resets time priority and can trade immediately if
+the replacement price crosses resting liquidity.
 
 ## Benchmark
 

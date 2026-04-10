@@ -7,3 +7,9 @@
 - Added scenario tests for best levels, partial fills, time priority, and cancellation behavior
 - Documented replay commands and matching rules
 - Fixed validation to reject invalid nonpositive order prices
+
+## Unreleased
+
+- Added modify-order support with cancel-and-replace semantics
+- Extended the replay driver with `MODIFY id price quantity`
+- Added tests for modify misses, cross-book modifies, and priority reset after replace

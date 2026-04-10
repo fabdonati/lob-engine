@@ -12,13 +12,14 @@
 - Sell orders match the best available bids at or above their limit price
 - Trade price is the resting order's price
 - Orders at the same price follow time priority
+- Modifies use cancel-and-replace semantics, so the replacement loses prior queue priority
 
 ## Data structures
 
 - bids: descending price map
 - asks: ascending price map
 - per-level FIFO queues to preserve time priority
-- order-id lookup map to support cancellation
+- order-id lookup map to support cancellation and modification lookup
 
 ## Scope
 

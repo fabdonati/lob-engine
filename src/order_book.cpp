@@ -34,37 +34,30 @@ bool OrderBook::cancel_order(int order_id) {
         return false;
     }
 
-    if (side_it->second == Side::Buy) {
-        for (auto level_it = bids_.begin(); level_it != bids_.end(); ++level_it) {
-            auto& queue = level_it->second;
-            for (auto order_it = queue.begin(); order_it != queue.end(); ++order_it) {
-                if (order_it->id == order_id) {
-                    queue.erase(order_it);
-                    if (queue.empty()) {
-                        bids_.erase(level_it);
-                    }
-                    order_sides_.erase(side_it);
-                    return true;
-                }
-            }
-        }
-    } else {
-        for (auto level_it = asks_.begin(); level_it != asks_.end(); ++level_it) {
-            auto& queue = level_it->second;
-            for (auto order_it = queue.begin(); order_it != queue.end(); ++order_it) {
-                if (order_it->id == order_id) {
-                    queue.erase(order_it);
-                    if (queue.empty()) {
-                        asks_.erase(level_it);
-                    }
-                    order_sides_.erase(side_it);
-                    return true;
-                }
-            }
-        }
+    return remove_order(order_id, side_it->second).has_value();
+}
+
+ModifyResult OrderBook::modify_order(int order_id, int new_price, int new_quantity) {
+    if (new_quantity <= 0) {
+        throw std::invalid_argument("order quantity must be positive");
+    }
+    if (new_price <= 0) {
+        throw std::invalid_argument("order price must be positive");
     }
 
-    return false;
+    const auto side_it = order_sides_.find(order_id);
+    if (side_it == order_sides_.end()) {
+        return ModifyResult{false, {}};
+    }
+
+    const Side side = side_it->second;
+    const auto existing = remove_order(order_id, side);
+    if (!existing.has_value()) {
+        return ModifyResult{false, {}};
+    }
+
+    auto trades = add_order(Order{order_id, side, new_price, new_quantity});
+    return ModifyResult{true, trades};
 }
 
 std::optional<Level> OrderBook::best_bid() const {
@@ -139,6 +132,42 @@ std::vector<Trade> OrderBook::match_sell(Order& incoming) {
         }
     }
     return trades;
+}
+
+std::optional<Order> OrderBook::remove_order(int order_id, Side side) {
+    if (side == Side::Buy) {
+        for (auto level_it = bids_.begin(); level_it != bids_.end(); ++level_it) {
+            auto& queue = level_it->second;
+            for (auto order_it = queue.begin(); order_it != queue.end(); ++order_it) {
+                if (order_it->id == order_id) {
+                    Order removed = *order_it;
+                    queue.erase(order_it);
+                    if (queue.empty()) {
+                        bids_.erase(level_it);
+                    }
+                    order_sides_.erase(order_id);
+                    return removed;
+                }
+            }
+        }
+    } else {
+        for (auto level_it = asks_.begin(); level_it != asks_.end(); ++level_it) {
+            auto& queue = level_it->second;
+            for (auto order_it = queue.begin(); order_it != queue.end(); ++order_it) {
+                if (order_it->id == order_id) {
+                    Order removed = *order_it;
+                    queue.erase(order_it);
+                    if (queue.empty()) {
+                        asks_.erase(level_it);
+                    }
+                    order_sides_.erase(order_id);
+                    return removed;
+                }
+            }
+        }
+    }
+
+    return std::nullopt;
 }
 
 template <typename Levels>

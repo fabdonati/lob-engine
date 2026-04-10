@@ -29,10 +29,16 @@ struct Level {
     int quantity;
 };
 
+struct ModifyResult {
+    bool found;
+    std::vector<Trade> trades;
+};
+
 class OrderBook {
   public:
     [[nodiscard]] std::vector<Trade> add_order(Order order);
     [[nodiscard]] bool cancel_order(int order_id);
+    [[nodiscard]] ModifyResult modify_order(int order_id, int new_price, int new_quantity);
     [[nodiscard]] std::optional<Level> best_bid() const;
     [[nodiscard]] std::optional<Level> best_ask() const;
     [[nodiscard]] int size() const noexcept;
@@ -43,6 +49,7 @@ class OrderBook {
 
     std::vector<Trade> match_buy(Order& incoming);
     std::vector<Trade> match_sell(Order& incoming);
+    std::optional<Order> remove_order(int order_id, Side side);
 
     template <typename Levels>
     static int aggregate_quantity(const Levels& levels, int price);
