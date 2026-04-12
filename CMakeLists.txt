@@ -31,8 +31,23 @@ add_test(
         -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/run_replay_fixture.cmake
 )
 add_test(
-    NAME benchmark_smoke
+    NAME benchmark_smoke_resting
     COMMAND ${CMAKE_COMMAND}
         -DBENCHMARK_EXECUTABLE=$<TARGET_FILE:order_book_benchmark>
+        -DBENCHMARK_SCENARIO=resting
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/run_benchmark_smoke.cmake
+)
+add_test(
+    NAME benchmark_smoke_matching
+    COMMAND ${CMAKE_COMMAND}
+        -DBENCHMARK_EXECUTABLE=$<TARGET_FILE:order_book_benchmark>
+        -DBENCHMARK_SCENARIO=matching
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/run_benchmark_smoke.cmake
+)
+add_test(
+    NAME benchmark_smoke_lifecycle
+    COMMAND ${CMAKE_COMMAND}
+        -DBENCHMARK_EXECUTABLE=$<TARGET_FILE:order_book_benchmark>
+        -DBENCHMARK_SCENARIO=lifecycle
         -P ${CMAKE_CURRENT_SOURCE_DIR}/tests/run_benchmark_smoke.cmake
 )

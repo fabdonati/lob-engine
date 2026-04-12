@@ -16,3 +16,5 @@
 - Added a committed replay fixture and a CTest scenario that validates replay output
 - Expanded benchmark output with workload counters, trade totals, and throughput
 - Added a benchmark smoke test to verify output shape in CTest
+- Split the benchmark into deterministic `resting`, `matching`, and `lifecycle` scenarios
+- Added explicit scenario reporting, operation totals, and modify counters to the benchmark output
