@@ -80,3 +80,29 @@ The scenarios are:
 - `lifecycle`: add / modify / cancel churn with deterministic matches
 
 These are intended as deterministic workload contrasts, not exchange-realistic simulations.
+
+## How to interpret the scenarios
+
+The three scenarios are meant to exercise different parts of the engine:
+
+- `resting`
+  - mostly measures book maintenance
+  - orders enter the book and stay there
+  - you should expect low `trade_count`, relatively high `remaining_orders`, and no meaningful `modify_count`
+- `matching`
+  - mostly measures the matching loop
+  - aggressive incoming orders consume resting liquidity immediately
+  - you should expect high `trade_count`, high `traded_quantity`, and lower `remaining_orders`
+- `lifecycle`
+  - mostly measures operational churn
+  - the workload includes add, modify, and cancel activity before deterministic matches occur
+  - you should expect non-zero `modify_count`, non-zero `modify_hit_count`, and some trade flow
+
+The useful way to compare them is not absolute speed alone. The point is to see how throughput and
+book state change when the workload shifts from:
+
+- resting-liquidity maintenance
+- to execution-heavy matching
+- to id-based lifecycle management
+
+That is the systems story this benchmark is meant to show.
