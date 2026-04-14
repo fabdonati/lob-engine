@@ -38,7 +38,7 @@ Run it with:
 ```
 
 `MODIFY id price quantity` removes the existing order and re-inserts the replacement with the
-same side and id. In this stage, every modify resets time priority and can trade immediately if
+same side and id. Every modify resets time priority and can trade immediately if
 the replacement price crosses resting liquidity.
 
 A committed example scenario lives at `examples/basic_lifecycle.txt`:
@@ -56,8 +56,8 @@ A committed example scenario lives at `examples/basic_lifecycle.txt`:
 ./build/order_book_benchmark --scenario lifecycle
 ```
 
-The benchmark is intentionally simple and is meant as a quick regression signal, not a formal
-latency study. It now reports:
+The benchmark is a regression and workload-comparison tool rather than a formal latency study.
+It reports:
 
 - `scenario`
 - `processed_orders`
@@ -79,7 +79,7 @@ The scenarios are:
 - `matching`: resting sell inventory followed by aggressive crossing buys
 - `lifecycle`: add / modify / cancel churn with deterministic matches
 
-These are intended as deterministic workload contrasts, not exchange-realistic simulations.
+These are deterministic workload contrasts rather than exchange-realistic simulations.
 
 ## How to interpret the scenarios
 
@@ -98,11 +98,9 @@ The three scenarios are meant to exercise different parts of the engine:
   - the workload includes add, modify, and cancel activity before deterministic matches occur
   - you should expect non-zero `modify_count`, non-zero `modify_hit_count`, and some trade flow
 
-The useful way to compare them is not absolute speed alone. The point is to see how throughput and
-book state change when the workload shifts from:
+The useful comparison is not absolute speed alone. The scenarios show how throughput and book state
+change when the workload shifts from:
 
 - resting-liquidity maintenance
 - to execution-heavy matching
 - to id-based lifecycle management
-
-That is the systems story this benchmark is meant to show.

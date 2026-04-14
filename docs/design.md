@@ -33,12 +33,12 @@
 - `matching`: emphasizes crossing flow and trade generation against seeded resting liquidity
 - `lifecycle`: emphasizes order lookup, modify/cancel churn, and cancel-replace behavior
 
-The benchmark is intentionally a regression and workload-contrast tool, not a latency lab. The
-useful signal is how the same engine behaves across distinct deterministic workloads.
+The benchmark is a regression and workload-contrast tool, not a latency lab. The useful signal is
+how the same engine behaves across distinct deterministic workloads.
 
 ## Scope
 
-This is intentionally a compact engine:
+Current scope:
 
 - no hidden/iceberg orders
 - no market orders in v0.1.0
